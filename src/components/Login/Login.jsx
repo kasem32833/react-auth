@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import app from "../../Firebase/Firebase.init";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 
 const Login = () => {
@@ -15,13 +15,18 @@ const Login = () => {
     const password = event.target.password.value;
 
     console.log(" sign in button clicked");
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((result) => {
-        setSuccess("User Loged in successfully");
+    signInWithEmailAndPassword(auth, email, password)
+    .then((result) => {
+        if(result.user.emailVerified){
+            setSuccess("User Loged in successfully");
+        }else{
+            alert('varify your account')
+            return;
+        }
       })
-      .catch((error) => {
+    .catch((error) => {
         setError(error.message);
-      });
+    });
   };
   return (
     <div>
@@ -52,7 +57,7 @@ const Login = () => {
                   />
                   <br />
                   <p>
-                    <a href="#" className="label-text-alt link link-hover">
+                    <a href="/login" className="label-text-alt link link-hover">
                       Forgot password?
                     </a>
                   </p>
