@@ -4,7 +4,7 @@ import Header from '../components/Header/Header';
 
 const MainLayouts = () => {
     return (
-        <div>
+        <div className='container mx-auto'>
             <Header></Header>
             <Outlet></Outlet>
         </div>
