@@ -1,8 +1,9 @@
 
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import app from "../../Firebase/Firebase.init";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 
 
@@ -13,6 +14,9 @@ const Register = () => {
     const auth = getAuth(app);
    
     const handleRegister = (event) =>{
+
+        // use contex
+        const {createUser} = useContext(AuthContext)
         // prevent reload 
         event.preventDefault()
         // get input value
@@ -30,7 +34,7 @@ const Register = () => {
 
         // login
 
-        createUserWithEmailAndPassword(auth, email, password)
+        createUser(email, password)
         .then((result) => {
             console.log(result.user)
             setSuccess('User Register successfully ')

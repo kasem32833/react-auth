@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
 import app from "../../Firebase/Firebase.init";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const Login = () => {
   const [success, setSuccess] = useState("");
@@ -10,12 +11,13 @@ const Login = () => {
   const auth = getAuth(app);
 
   const handleSignIn = (event) => {
+    const {signinUser} = useContext(AuthContext)
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
 
     console.log(" sign in button clicked");
-    signInWithEmailAndPassword(auth, email, password)
+    signinUser( email, password)
     .then((result) => {
         if(result.user.emailVerified){
             setSuccess("User Loged in successfully");
